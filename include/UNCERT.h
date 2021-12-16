@@ -21,7 +21,6 @@ namespace UNFOLD{
 	private:
 	public:
 		UNCERT(UNFOLD *unfold_pnt,int sampleCount,vector<double> en,vector<double> w);
-		UNCERT(UNFOLD *unfold_pnt,int sampleCount,Eigen::VectorXf lightOutputs);
 
 		vector<double>en;
 		vector<double>w;
@@ -35,8 +34,10 @@ namespace UNFOLD{
 		void setSimulatedMeans();
 		void setSimulatedSums();
 		void plotSimulatedMeans(char *name);
-		void plotReconstructedLightOutputByTrial(int trialNumber,char* name);
+		void plotInSpectrumByTrial(int trialNumber,char* name);
 		void plotSimulatedMeanByTrial(int trialNumber,char *name);
+		void gen_random(char *s, size_t len);
+		void printTwoVectors(Eigen::VectorXf v1, Eigen::VectorXf v2);
 
 		//*******************
 		//HELPER FUNCTIONS
@@ -45,8 +46,8 @@ namespace UNFOLD{
 		//*****************
 		//INITIAL VARS
 		//****************
-		Eigen::VectorXf lightOutputs;
-		Eigen::VectorXf lightOutputUncertainties;
+		Eigen::VectorXf inSpectrum;
+		Eigen::VectorXf inSpectrumUncertainties;
 		UNFOLD *unfold_pnt;
 		//*****************
 		//RECONSTRUCTED DATA STRUCTS

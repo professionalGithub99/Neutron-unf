@@ -47,18 +47,20 @@ class UNFOLD
     // *******
     // SETTERS
     // *******
-    void setInSpectrum(Eigen::VectorXf vect);
+    void setLightOutput(Eigen::VectorXf vect);
     void setInputEnergy(Eigen::VectorXf vect);
 Eigen::VectorXf scaleVectorWithKey(Eigen::VectorXf scaleTo, Eigen::VectorXf key,Eigen::VectorXf scale);
     // *******
     // Getters
     // *******
     std::vector<float> getProjection();
+    std::vector<float> getBestGuess();
+    std::vector<float> getInSpectrum();
     std::vector<float> getProjectionUncertainties();
-    Eigen::VectorXf getInSpectrum();
-    Eigen::VectorXf getInSpectrumUncertainties();
-    Eigen::VectorXf getBestGuess();
-    Eigen::VectorXf expirementalGetBestGuess(char *name);
+    std::vector<float> getProjectionUncertaintiesWSqrt();
+    Eigen::VectorXf getLightOutputResponse();
+    Eigen::VectorXf getLightOutputUncertainties();
+    Eigen::VectorXf getInputEnergies();
     // *************
     // histogram visualization
     // *************

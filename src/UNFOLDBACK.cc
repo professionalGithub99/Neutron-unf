@@ -14,9 +14,12 @@
 #include <string>
 #include <iostream>
 // reference: https://tomroelandts.com/articles/the-sirt-algorithm
+
 using namespace std;
+
 namespace UNFOLD
 {
+
   // this default constructor
   UNFOLD::UNFOLD(FILEIO *fio)
   {
@@ -47,6 +50,7 @@ namespace UNFOLD
 //m_fio->energyIncrement = i_enIncrement;
 //cout << "eIncrement = " << m_fio->energyIncrement << endl;
 //}
+
 void UNFOLD::printParameters()
 {
   cout << "*** UNFOLD Parameters ***\n";
@@ -54,6 +58,10 @@ void UNFOLD::printParameters()
   cout << "\nm_fio->eBins = " << m_fio->eBins << endl;
   cout << "\neIncrement = " << m_fio->energyIncrement << endl;
 }
+
+
+
+
 void UNFOLD::setResponseMatrix()
 {
   //cout << m_fio->response->size() << endl;
@@ -163,13 +171,16 @@ void UNFOLD::generateFakeData(vector<double> en, vector<double> weight)
   }
   return;
 }
+
 void UNFOLD::setInitialGuess(float guess)
 {
   x_1.resize(m_fio->eBins,1);
   x.resize(m_fio->eBins,1);
+
   x.setOnes();
   x_1.setOnes();
   //cout << x << endl;
+
   for(int i=0; i<m_fio->eBins; i++)
   {
     if(ansIndex(i,0) < m_fio->threshold)
@@ -181,6 +192,7 @@ void UNFOLD::setInitialGuess(float guess)
 
   return;
 }
+
 
 void UNFOLD::fwdProject()
 {
@@ -249,7 +261,7 @@ void UNFOLD::backProject()
   ax = a * x_1;
 }
 
-void UNFOLD::setInSpectrum(Eigen::VectorXf vect){
+void UNFOLD::setLightOutput(Eigen::VectorXf vect){
   b.col(0)=vect;
 }
 void UNFOLD::setInputEnergy(Eigen::VectorXf vect){
@@ -264,35 +276,46 @@ vector<float> UNFOLD::getProjection()
   }
   return v;
 }
-Eigen::VectorXf UNFOLD::getInSpectrum(){
+Eigen::VectorXf UNFOLD::getLightOutputResponse(){
   return b;
 }
-Eigen::VectorXf UNFOLD::getInSpectrumUncertainties(){
+Eigen::VectorXf UNFOLD::getLightOutputUncertainties(){
   Eigen::MatrixXf loUncertainties (m_fio->nBins,1);
   for(int i=0;i<m_fio->nBins;i++){
     loUncertainties(i,0)=TMath::Sqrt(b(i,0));
   }
   return loUncertainties;
 }
-Eigen::VectorXf UNFOLD::getBestGuess(){
-  return x.col(0);
+vector<float> UNFOLD::getBestGuess()
+{
+  vector<float> v;
+  for(int i=0; i<m_fio->eBins; i++)
+  {
+    v.push_back(x(i,0));
+  }
+  return v;
 }
 
- Eigen::VectorXf UNFOLD::expirementalGetBestGuess(char*name)
+vector<float> UNFOLD::getInSpectrum()
 {
-  TH1F *hAnswer = new TH1F(name,"Best Estimate;E_{n} (MeV);Counts",200,0,10);
-  // ***fix your vis ***
-  for(int bN=0; bN<m_fio->eBins; bN++)
+  vector<float> v;
+  for(int i=0; i<m_fio->nBins; i++)
   {
-    hAnswer->Fill(ansIndex(bN,0), x(bN,0));
-    /*cout <<"binNumber"<<hAnswer->GetBin(bN) <<"Energy " <<ansIndex(bN,0) << " counts? " << x(bN,0) <<" counts "<<hAnswer->GetBinContent(bN)
-     <<  " center " << hAnswer->GetBinCenter(bN)<<" low edge "<<hAnswer->GetBinLowEdge(bN)<<endl<< endl;*/
+    v.push_back(b(i,0));
   }
-  Eigen::VectorXf testVector(200);
-  for(int i=0;i<200;i++){
-    testVector(i)=hAnswer->GetBinContent(i);
+  return v;
+}
+Eigen::VectorXf UNFOLD::getInputEnergies(){
+  return x.col(0);
+}
+vector<float> UNFOLD::getProjectionUncertaintiesWSqrt(){
+  vector <float> proj=UNFOLD::getProjection();
+  vector <float> uncertainties;
+  for (vector<float>::iterator it=proj.begin();it!=proj.end();++it){
+    //cout<<TMath::Sqrt(*it)<<"uncertain"<<endl;
+    uncertainties.push_back(TMath::Sqrt(*it));
   }
-  return testVector;
+  return uncertainties;
 }
 vector<float> UNFOLD::getProjectionUncertainties(){
   vector<float> float_vect;
@@ -337,14 +360,12 @@ TGraph* UNFOLD::plotAnswer(Eigen::VectorXf vectStd,char *name)
   new TCanvas;
   double binW = ansIndex(1,0) - ansIndex(0,0);
   cout << "m_fio->endR: " << m_fio->endR << endl;
-  //double hStart  = m_fio->energyIncrement/2.;
-  double hStart=0;
-  //double hEnd    = m_fio->endR + m_fio->energyIncrement/2.;
-  double hEnd=10;
+  double hStart  = m_fio->energyIncrement/2.;
+  double hEnd    = m_fio->endR + m_fio->energyIncrement/2.;
   int nBins = (hEnd - hStart) / binW;
   cout << hStart << " " << hEnd << " " << m_fio->nBins << endl<<endl;
   // todo: need to check if this is right for the bins and range
-cout<<ansIndex(1,0)-ansIndex(0,0)<<"kjsldjfs"<<endl;
+
   TH1F *hAnswer = new TH1F(name,"Best Estimate;E_{n} (MeV);Counts",200,0,10);
   //TH1F *hAnswer = new TH1F(name,"Best Estimate;E_{n} (MeV);Counts",m_fio->nBins+1,hStart,hEnd);
   // ***fix your vis ***
@@ -387,8 +408,8 @@ cout<<ansIndex(1,0)-ansIndex(0,0)<<"kjsldjfs"<<endl;
   hAnswer->SetLineColor(kViolet);
   hAnswer->SetMarkerStyle(kFullSquare);
   hAnswer->SetMarkerSize(1);
-  hAnswer->SetMarkerColor(kRed);
-  hAnswer->Draw("E1 hist");
+  hAnswer->SetMarkerColor(kBlue);
+  hAnswer->Draw("E1");
   //auto tf = new TFile("ans.root","recreate");
   //gr->Write();
   //tf->Close();
@@ -406,8 +427,7 @@ TGraph* UNFOLD::plotAnswer(char*name)
   cout << hStart << " " << hEnd << " " << m_fio->nBins << endl<<endl;
   // todo: need to check if this is right for the bins and range
   //hAnswer = new TH1F("hAnswer","Best Estimate;E_{n} (MeV);Counts",300,0.025,15.025);
-  // TH1F* hAnswer = new TH1F(name,"Best Estimate;E_{n} (MeV);Counts",m_fio->nBins+1,hStart,hEnd);
-  TH1F *hAnswer = new TH1F(name,"Best Estimate;E_{n} (MeV);Counts",200,0,10);
+   TH1F* hAnswer = new TH1F(name,"Best Estimate;E_{n} (MeV);Counts",m_fio->nBins+1,hStart,hEnd);
   // ***fix your vis ***
   for(int bN=0; bN<m_fio->eBins; bN++)
   {
@@ -433,8 +453,7 @@ TGraph* UNFOLD::plotAnswer(char*name)
   //gr->Draw("AC");
   auto hr = gr->GetHistogram();
   hAnswer->SetLineColor(2);
-  //hAnswer->Draw("hist same");
-  hAnswer->Draw("hist");
+  hAnswer->Draw("hist same");
   //auto tf = new TFile("ans.root","recreate");
   //gr->Write();
   //tf->Close();
