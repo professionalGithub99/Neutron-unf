@@ -10,7 +10,7 @@
 #pragma link C++ class UNFOLD::FILEIO+;
 #pragma link C++ class UNFOLD::HVis+;
 #pragma link C++ class UNFOLD::UNFOLD+;
-#pragma link C++ class UNFOLD::UNCERT+;
+#pragma link C++ class UNCERT::UNCERT+;
 #pragma link C++ class UNFOLD:Vis+;
 
 #endif // __CINT__

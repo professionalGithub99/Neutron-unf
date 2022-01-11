@@ -1,13 +1,14 @@
 { decls }
 namespace UNFOLD {  }
+namespace UNCERT {  }
 
 [ libmyUnfoldlibs_Dict.so ]
 # List of selected classes
+class UNCERT::UNCERT
 class UNFOLD::FILEIO
 class UNFOLD::HVis
-class UNFOLD::UNCERT
 class UNFOLD::UNFOLD
+header UNCERT.h
 header FILEIO.h
 header HVis.h
-header UNCERT.h
 header UNFOLD.h

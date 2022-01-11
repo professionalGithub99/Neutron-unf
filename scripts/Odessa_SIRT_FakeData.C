@@ -2,14 +2,15 @@
 void Odessa_SIRT_FakeData()
 {
   UNFOLD::FILEIO *fio;
-  UNFOLD::UNCERT *uncert;
+  UNCERT::UNCERT *uncert;
   fio = new UNFOLD::FILEIO();
-  fio->setResponse("odessa_matrix.txt");
   fio->setThreshold(0.2);
   fio->setNbins(350);
   fio->setEbins(160);
   fio->setRange(0,10);
   fio->setEnergyIncrement(0.05); // in units of MeV
+
+  fio->setResponse("odessa_matrix.txt");
   UNFOLD::UNFOLD s(fio);
   s.printParameters();
   // add these to FILEIO class
@@ -40,14 +41,17 @@ void Odessa_SIRT_FakeData()
   // loop over number of iterations for unfolding
 s.plotInputSpectrum("jj");
 s.plotAnswer("tt");
-uncert=new UNFOLD::UNCERT(&s,250,en,w);
+uncert=new UNCERT::UNCERT(&s,205,en,w);
 Eigen::MatrixXf reconstMtx= uncert->binGeneration();
 Eigen::MatrixXf simMtx= uncert->unfoldReconstructed();
 //uncert->plotSimulatedMeanByTrial(0,"11");
 //uncert->plotSimulatedMeanByTrial(8,"22");
-uncert->plotBinNumber(65,simMtx,"jsjesting","testing2");
-uncert->plotBinNumber(130,simMtx,"jsidjijdsdjsting","testing2");
-uncert->plotBinNumber(142,simMtx,"rrjrkjk","testing2");
+uncert->plotBinNumber(65,simMtx,"neutronEnergyBin65;counts;countsgen","testing2");
+uncert->plotBinNumber(130,simMtx,"neutronEnergyBin130;counts;countsgen","testing2");
+uncert->plotBinNumber(131,simMtx,"neutronEnergyBin131;counts;countsgen","testing2");
+uncert->plotBinNumber(142,simMtx,"neutronEnergyBin142;counts;countsgen","testing2");
+uncert->plotBinNumber(30,reconstMtx,"LOBin30;counts;countsgen","stuff");
+uncert->plotInSpectrumByTrial(2,"example light output spectrum");
 uncert->plotSimulatedMeans("abcdef");
 /*uncert->plotInSpectrumByTrial(0,"am");
 uncert->plotInSpectrumByTrial(1,"tm");

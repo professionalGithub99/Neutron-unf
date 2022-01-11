@@ -4,6 +4,7 @@
 #include <TH1.h>
 #include <TH2.h>
 #include <TString.h>
+#include <TCanvas.h>
 //c++ classes
 #include <vector>
 #include <fstream>
@@ -68,6 +69,9 @@ void FILEIO::setRange(double start, double end)
   startR = start;
   endR = end;
 }
+//sets energyIncrements
+  void FILEIO::setEnergyIncrement(float en) {energyIncrement = en;}
+
 // Sets response from txt file and creates a file containing histograms of
 // the individual energy responses
 void FILEIO::setResponse(std::string iFN)
@@ -84,14 +88,18 @@ void FILEIO::setResponse(std::string iFN)
   }
 
   int nEntries;
+  //350
   in >> nEntries;
   //int i_nFiles;
+  //160
   in >> nFiles;
   eBins = nFiles;
   //nFiles = i_nFiles;
   int mcnp; //used if reponse is simulated
+  //1
   in >> mcnp;
   double loBinWidth;
+  //0.01
   in >> loBinWidth;
   cout << "Using the following parameters for response:\n"
        << "\tentries:      " << nEntries   << "\n"
@@ -115,10 +123,11 @@ void FILEIO::setResponse(std::string iFN)
     {
       cout << "Histo parameters: \n"
            << "\tRange: 0 -- " << nEntries*loBinWidth << "\n"
-           << "\tBins:  " << hist->GetNbinsX() << endl;
+           << "\tBins:  " << hist->GetNbinsX() << "\n"
+           << "\tBins:  " << nEntries << "\n"
+          <<"\tEnergyIncrements:  " <<energyIncrement<< endl;
       numOfSimBins = hist->GetNbinsX();
     }
-
     for(int i_bN=0; i_bN<nEntries; i_bN++)
     {
       double val;
@@ -138,7 +147,9 @@ void FILEIO::setResponse(std::string iFN)
     //delete f1;
     // fill the response from input files
     for(int bN=0; bN<hist->GetNbinsX(); bN++)
+    {
       response->push_back(hist->GetBinContent(bN));
+    }
     //
     delete hist;
   }

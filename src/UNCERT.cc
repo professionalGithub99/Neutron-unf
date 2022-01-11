@@ -3,14 +3,14 @@
 #include <cctype>    // for isalnum()
 #include <algorithm> // for back_inserter
 #include <string>
-namespace UNFOLD{
+namespace UNCERT{
 
 
   //Change light output bin width to to 10Kev (ee)
   //constructor for uncertainty quant. generating fakedata
   //unfold_pnt is the pointer to an unfolding object
   //sampleCount sample count is  how many sets of bins do you expect to be created on gaussian smear and or how many reconstrcuted on unfoldin
-  UNCERT::UNCERT(UNFOLD *unfold_pnt,int sampleCount,vector<double> en,vector<double> w){
+  UNCERT::UNCERT(UNFOLD::UNFOLD *unfold_pnt,int sampleCount,vector<double> en,vector<double> w){
 
     UNCERT::unfold_pnt=unfold_pnt;
 
@@ -38,7 +38,6 @@ namespace UNFOLD{
     simulatedBinSums.setZero();
 
     simulatedBinUncertainties.resize(200);
-
     generateFakeData();
   }
 
@@ -61,17 +60,22 @@ namespace UNFOLD{
 //this method generates the smeared bins from the initial light outputs-> It puts each generated
 //Lightoutput vctor into a row in reconstructed bin matrix
 Eigen::MatrixXf UNCERT::binGeneration(){
-  // one for fake data and one for expiremental can take in vect or hist.
+	//print a number and its square root
+	cout<<"sqrt(2)="<<sqrt(2)<<endl;
+	 // one for fake data and one for expiremental can take in vect or hist.
   TRandom random_tracker= TRandom();
   for(int i=0;i<inSpectrum.size();i++){
     Eigen::VectorXf tempVect(sampleCount);
     double standardDev=0;
     for (int j=0;j<sampleCount;j++){
-      float temp_tracker=random_tracker.Gaus(inSpectrum(i),inSpectrumUncertainties(i));
-      if(temp_tracker<=0){
-        temp_tracker=0;
+      //float temp_tracker=random_tracker.Gaus(inSpectrum(i)*100.0,sqrt(inSpectrum(i)*100.00));
+      //float temp_tracker=random_tracker.Gaus(inSpectrum(i)*100.0,inSpectrumUncertainties(i)*100.0);
+      float temp_tracker= gRandom->PoissonD(inSpectrum(i)*100.0);
+      if(temp_tracker<0){
+      //  temp_tracker=0;
+      cout<<"under 0 "<<temp_tracker<<" mean * 100 "<<inSpectrum(i)*100.00<<" sqrt(insepctrum *100) "<<sqrt(inSpectrum(i)*100.00)<<endl;
       }
-      tempVect(j)=temp_tracker;
+      tempVect(j)=temp_tracker/100.00;
     }
     /*if(tempVect.isZero()!=1){
     cout<<"bin"<<i<<endl;
@@ -96,7 +100,6 @@ Eigen::MatrixXf UNCERT::unfoldReconstructed(){
   for(int z=0;z<reconstructedBinMatrix.rows();z++){
     unfold_pnt->setInSpectrum(reconstructedBinMatrix.row(z));
     unfold_pnt->setInitialGuess(1.);
-
     char *arr= new char[8];
     gen_random(arr,7);
 
@@ -135,6 +138,7 @@ void UNCERT::plotInSpectrumByTrial(int trialNumber,char *name){
      }
      s[len] = 0;
  }
+
 Eigen::VectorXf UNCERT::standardDeviation(Eigen::MatrixXf matrix){
   Eigen::VectorXf stdVectors;
   stdVectors.resize(matrix.cols());
@@ -184,10 +188,9 @@ void UNCERT::setSimulatedUncertainties(){
 void UNCERT::plotSimulatedMeans(char *name){
   new TCanvas;
   TH1F *testing= new TH1F(name,"Best Estimate;E_{n} (MeV);Counts",200,0,10);
-
   for (int i =0;i<simulatedBinMeans.size();i++){
   testing->SetBinContent(i,simulatedBinMeans(i));
-  testing->SetBinError(i,simulatedBinUncertainties(i));
+  testing->SetBinError(i,simulatedBinUncertainties(i)*3);
   }
   printTwoVectors(simulatedBinMeans,simulatedBinUncertainties);
   testing->SetLineColor(kViolet);
@@ -212,7 +215,7 @@ void UNCERT::plotSimulatedMeanByTrial(int trialNumber,char* name){
 void UNCERT::plotBinNumber(int binNumber,Eigen::MatrixXf matrix, char *name,const char *title){
   new TCanvas;
   Eigen::VectorXf plottedBin= matrix.col(binNumber);
-  TH1F * binX= new TH1F(name,"specificLOBin;counts;countsgen",unfold_pnt->nBins+1,plottedBin.minCoeff(),plottedBin.maxCoeff());
+  TH1F * binX= new TH1F(title,name,unfold_pnt->nBins+1,plottedBin.minCoeff(),plottedBin.maxCoeff());
   double total=0;
   for (int i =0;i<matrix.col(binNumber).size();i++){
     binX->Fill(matrix(i,binNumber),1);

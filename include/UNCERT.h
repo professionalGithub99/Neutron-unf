@@ -16,11 +16,11 @@
 #include<TProfile.h>
 #include<TMath.h>
 using namespace std;
-namespace UNFOLD{
+namespace UNCERT{
 	class UNCERT{
 	private:
 	public:
-		UNCERT(UNFOLD *unfold_pnt,int sampleCount,vector<double> en,vector<double> w);
+		UNCERT(UNFOLD::UNFOLD *unfold_pnt,int sampleCount,vector<double> en,vector<double> w);
 
 		vector<double>en;
 		vector<double>w;
@@ -48,7 +48,7 @@ namespace UNFOLD{
 		//****************
 		Eigen::VectorXf inSpectrum;
 		Eigen::VectorXf inSpectrumUncertainties;
-		UNFOLD *unfold_pnt;
+		UNFOLD::UNFOLD *unfold_pnt;
 		//*****************
 		//RECONSTRUCTED DATA STRUCTS
 		//****************

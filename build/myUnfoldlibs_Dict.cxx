@@ -61,7 +61,7 @@ namespace ROOT {
       ::UNFOLD::FILEIO *ptr = 0;
       static ::TVirtualIsAProxy* isa_proxy = new ::TIsAProxy(typeid(::UNFOLD::FILEIO));
       static ::ROOT::TGenericClassInfo 
-         instance("UNFOLD::FILEIO", "FILEIO.h", 20,
+         instance("UNFOLD::FILEIO", "FILEIO.h", 19,
                   typeid(::UNFOLD::FILEIO), ::ROOT::Internal::DefineBehavior(ptr, ptr),
                   &UNFOLDcLcLFILEIO_Dictionary, isa_proxy, 4,
                   sizeof(::UNFOLD::FILEIO) );
@@ -133,42 +133,42 @@ namespace ROOT {
 } // end of namespace ROOT
 
 namespace ROOT {
-   static TClass *UNFOLDcLcLUNCERT_Dictionary();
-   static void UNFOLDcLcLUNCERT_TClassManip(TClass*);
-   static void delete_UNFOLDcLcLUNCERT(void *p);
-   static void deleteArray_UNFOLDcLcLUNCERT(void *p);
-   static void destruct_UNFOLDcLcLUNCERT(void *p);
+   static TClass *UNCERTcLcLUNCERT_Dictionary();
+   static void UNCERTcLcLUNCERT_TClassManip(TClass*);
+   static void delete_UNCERTcLcLUNCERT(void *p);
+   static void deleteArray_UNCERTcLcLUNCERT(void *p);
+   static void destruct_UNCERTcLcLUNCERT(void *p);
 
    // Function generating the singleton type initializer
-   static TGenericClassInfo *GenerateInitInstanceLocal(const ::UNFOLD::UNCERT*)
+   static TGenericClassInfo *GenerateInitInstanceLocal(const ::UNCERT::UNCERT*)
    {
-      ::UNFOLD::UNCERT *ptr = 0;
-      static ::TVirtualIsAProxy* isa_proxy = new ::TIsAProxy(typeid(::UNFOLD::UNCERT));
+      ::UNCERT::UNCERT *ptr = 0;
+      static ::TVirtualIsAProxy* isa_proxy = new ::TIsAProxy(typeid(::UNCERT::UNCERT));
       static ::ROOT::TGenericClassInfo 
-         instance("UNFOLD::UNCERT", "UNCERT.h", 20,
-                  typeid(::UNFOLD::UNCERT), ::ROOT::Internal::DefineBehavior(ptr, ptr),
-                  &UNFOLDcLcLUNCERT_Dictionary, isa_proxy, 4,
-                  sizeof(::UNFOLD::UNCERT) );
-      instance.SetDelete(&delete_UNFOLDcLcLUNCERT);
-      instance.SetDeleteArray(&deleteArray_UNFOLDcLcLUNCERT);
-      instance.SetDestructor(&destruct_UNFOLDcLcLUNCERT);
+         instance("UNCERT::UNCERT", "UNCERT.h", 20,
+                  typeid(::UNCERT::UNCERT), ::ROOT::Internal::DefineBehavior(ptr, ptr),
+                  &UNCERTcLcLUNCERT_Dictionary, isa_proxy, 4,
+                  sizeof(::UNCERT::UNCERT) );
+      instance.SetDelete(&delete_UNCERTcLcLUNCERT);
+      instance.SetDeleteArray(&deleteArray_UNCERTcLcLUNCERT);
+      instance.SetDestructor(&destruct_UNCERTcLcLUNCERT);
       return &instance;
    }
-   TGenericClassInfo *GenerateInitInstance(const ::UNFOLD::UNCERT*)
+   TGenericClassInfo *GenerateInitInstance(const ::UNCERT::UNCERT*)
    {
-      return GenerateInitInstanceLocal((::UNFOLD::UNCERT*)0);
+      return GenerateInitInstanceLocal((::UNCERT::UNCERT*)0);
    }
    // Static variable to force the class initialization
-   static ::ROOT::TGenericClassInfo *_R__UNIQUE_DICT_(Init) = GenerateInitInstanceLocal((const ::UNFOLD::UNCERT*)0x0); R__UseDummy(_R__UNIQUE_DICT_(Init));
+   static ::ROOT::TGenericClassInfo *_R__UNIQUE_DICT_(Init) = GenerateInitInstanceLocal((const ::UNCERT::UNCERT*)0x0); R__UseDummy(_R__UNIQUE_DICT_(Init));
 
    // Dictionary for non-ClassDef classes
-   static TClass *UNFOLDcLcLUNCERT_Dictionary() {
-      TClass* theClass =::ROOT::GenerateInitInstanceLocal((const ::UNFOLD::UNCERT*)0x0)->GetClass();
-      UNFOLDcLcLUNCERT_TClassManip(theClass);
+   static TClass *UNCERTcLcLUNCERT_Dictionary() {
+      TClass* theClass =::ROOT::GenerateInitInstanceLocal((const ::UNCERT::UNCERT*)0x0)->GetClass();
+      UNCERTcLcLUNCERT_TClassManip(theClass);
    return theClass;
    }
 
-   static void UNFOLDcLcLUNCERT_TClassManip(TClass* ){
+   static void UNCERTcLcLUNCERT_TClassManip(TClass* ){
    }
 
 } // end of namespace ROOT
@@ -255,17 +255,17 @@ namespace ROOT {
 
 namespace ROOT {
    // Wrapper around operator delete
-   static void delete_UNFOLDcLcLUNCERT(void *p) {
-      delete ((::UNFOLD::UNCERT*)p);
+   static void delete_UNCERTcLcLUNCERT(void *p) {
+      delete ((::UNCERT::UNCERT*)p);
    }
-   static void deleteArray_UNFOLDcLcLUNCERT(void *p) {
-      delete [] ((::UNFOLD::UNCERT*)p);
+   static void deleteArray_UNCERTcLcLUNCERT(void *p) {
+      delete [] ((::UNCERT::UNCERT*)p);
    }
-   static void destruct_UNFOLDcLcLUNCERT(void *p) {
-      typedef ::UNFOLD::UNCERT current_t;
+   static void destruct_UNCERTcLcLUNCERT(void *p) {
+      typedef ::UNCERT::UNCERT current_t;
       ((current_t*)p)->~current_t();
    }
-} // end of namespace ROOT for class ::UNFOLD::UNCERT
+} // end of namespace ROOT for class ::UNCERT::UNCERT
 
 namespace ROOT {
    // Wrappers around operator new
@@ -446,7 +446,7 @@ namespace {
 extern int __Cling_AutoLoading_Map;
 namespace UNFOLD{class __attribute__((annotate("$clingAutoload$FILEIO.h")))  FILEIO;}
 namespace UNFOLD{class __attribute__((annotate("$clingAutoload$UNFOLD.h")))  UNFOLD;}
-namespace UNFOLD{class __attribute__((annotate("$clingAutoload$UNCERT.h")))  UNCERT;}
+namespace UNCERT{class __attribute__((annotate("$clingAutoload$UNCERT.h")))  UNCERT;}
 namespace UNFOLD{class __attribute__((annotate("$clingAutoload$HVis.h")))  HVis;}
 )DICTFWDDCLS";
     static const char* payloadCode = R"DICTPAYLOAD(
@@ -464,9 +464,9 @@ namespace UNFOLD{class __attribute__((annotate("$clingAutoload$HVis.h")))  HVis;
 #undef  _BACKWARD_BACKWARD_WARNING_H
 )DICTPAYLOAD";
     static const char* classesHeaders[] = {
+"UNCERT::UNCERT", payloadCode, "@",
 "UNFOLD::FILEIO", payloadCode, "@",
 "UNFOLD::HVis", payloadCode, "@",
-"UNFOLD::UNCERT", payloadCode, "@",
 "UNFOLD::UNFOLD", payloadCode, "@",
 nullptr
 };

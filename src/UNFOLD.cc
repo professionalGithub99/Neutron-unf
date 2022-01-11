@@ -70,17 +70,14 @@ void UNFOLD::setResponseMatrix()
       a(bN,en) = m_fio->response->at(pos);
     }
   }
-  delete m_fio->response; // delete pointer
+  //delete m_fio->response; // delete pointer
   // set answer index; maps "best" guess values to response matrix values
   ansIndex.resize(m_fio->eBins,1);
   for(int en=0; en<m_fio->eBins; en++)
   {
     //ansIndex(en,0) = 1 + (en+1)*m_fio->energyIncrement;
     ansIndex(en,0) = m_fio->startR + (en)*m_fio->energyIncrement;
-    //cout << en << " " << ansIndex(en,0) << endl;
   }
-  Eigen::MatrixXf testData = Eigen::MatrixXf::Zero(m_fio->eBins,1);
-  cout<<testData.rows()<<"rows"<<endl;
   return;
 }
 
@@ -88,8 +85,8 @@ void UNFOLD::setResponseMatrix()
 void UNFOLD::calcNormMatrix()
 {
   // for SIRT
-  Eigen::VectorXf r = a.rowwise().sum(); // diagonal matrix of row sums of a
-  Eigen::VectorXf c = a.colwise().sum(); // diagonal matrix of col sums of a
+  Eigen::VectorXf r = a.rowwise().sum(); // diagonal matrix of row sums of a //nBinsSize
+  Eigen::VectorXf c = a.colwise().sum(); // diagonal matrix of col sums of a //eBinSize
 
   cout << "r: " << r.rows() << "x" << r.cols() << endl;
   cout << "c: " << c.rows() << "x" << c.cols() << endl;
@@ -107,8 +104,11 @@ void UNFOLD::calcNormMatrix()
     else{c(i) = 1/ c(i);}
   }
   catr = c.asDiagonal() * a.transpose() * r.asDiagonal();
+  cout << "catr: " << catr.rows() << "x" << catr.cols() << endl;
+
   // for MLEM
   a_norm.resize(a.cols());
+
   for(int j=0; j<a.cols(); j++)
   {
     double sum = 0;
@@ -143,9 +143,11 @@ void UNFOLD::generateFakeData(vector<double> en, vector<double> weight)
   // find the corresponding positions for the energies added
   vector<int> en_pos;
   for(int i=0; i<en.size(); i++)
-  en_pos.push_back(en[i]/m_fio->energyIncrement);
+  {en_pos.push_back(en[i]/m_fio->energyIncrement);}
   for(int i=0; i<en.size(); i++)
-  testData(en_pos[i],0) = weight[i];
+  {
+    cout<<"enPos "<<i<<" "<<en_pos[i]<<endl;
+    testData(en_pos[i],0) = weight[i];}
   //cout << en_pos[0] << endl;
   //testData(30,0) = 10;
   //cout << 30 * m_fio->energyIncrement << endl;
@@ -154,9 +156,13 @@ void UNFOLD::generateFakeData(vector<double> en, vector<double> weight)
   cout  << testData.rows() << "x" << testData.cols() << endl;
   b = a * testData;
   // add some Poisson variance
+    cout<<"val"<<endl;
   for(int i=0; i<b.size(); i++)
   {
     auto val = gRandom->PoissonD(b(i)*100);
+    /*cout<<b(i)<<endl;
+    cout<<val<<endl;
+    cout<< val/100<< " "<<endl<<endl;*/
     //cout << b(i) << " " << val/100 << endl;
     b(i,0) = val/100;
     //cout<<i<<" "<<val;
@@ -178,7 +184,6 @@ void UNFOLD::setInitialGuess(float guess)
       x(i,0) = 0;
     }
   }
-
   return;
 }
 
