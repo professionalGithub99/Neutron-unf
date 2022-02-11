@@ -70,6 +70,7 @@ void UNFOLD::setResponseMatrix()
       a(bN,en) = m_fio->response->at(pos);
     }
   }
+  
   //delete m_fio->response; // delete pointer
   // set answer index; maps "best" guess values to response matrix values
   ansIndex.resize(m_fio->eBins,1);
@@ -77,6 +78,7 @@ void UNFOLD::setResponseMatrix()
   {
     //ansIndex(en,0) = 1 + (en+1)*m_fio->energyIncrement;
     ansIndex(en,0) = m_fio->startR + (en)*m_fio->energyIncrement;
+    //cout << "ansIndex = " << ansIndex(en,0) << endl;
   }
   return;
 }
@@ -87,11 +89,9 @@ void UNFOLD::calcNormMatrix()
   // for SIRT
   Eigen::VectorXf r = a.rowwise().sum(); // diagonal matrix of row sums of a //nBinsSize
   Eigen::VectorXf c = a.colwise().sum(); // diagonal matrix of col sums of a //eBinSize
-
   cout << "r: " << r.rows() << "x" << r.cols() << endl;
   cout << "c: " << c.rows() << "x" << c.cols() << endl;
-  //cout << r << endl;
-  //c = 1/c;
+  
   for(int i=0; i<r.size(); i++)
   {
     if(r(i) == 0) r(i) = 0;
@@ -104,7 +104,6 @@ void UNFOLD::calcNormMatrix()
     else{c(i) = 1/ c(i);}
   }
   catr = c.asDiagonal() * a.transpose() * r.asDiagonal();
-  cout << "catr: " << catr.rows() << "x" << catr.cols() << endl;
 
   // for MLEM
   a_norm.resize(a.cols());
@@ -116,6 +115,7 @@ void UNFOLD::calcNormMatrix()
     {
       sum += a(i,j);
     }
+    //print out the sum
     // you will divide by this vector, so make sure there is not a zero.
     if(sum == 0) sum = 1E-6;
     a_norm(j) = (sum);
@@ -146,7 +146,6 @@ void UNFOLD::generateFakeData(vector<double> en, vector<double> weight)
   {en_pos.push_back(en[i]/m_fio->energyIncrement);}
   for(int i=0; i<en.size(); i++)
   {
-    cout<<"enPos "<<i<<" "<<en_pos[i]<<endl;
     testData(en_pos[i],0) = weight[i];}
   //cout << en_pos[0] << endl;
   //testData(30,0) = 10;
@@ -154,9 +153,9 @@ void UNFOLD::generateFakeData(vector<double> en, vector<double> weight)
   b.resize(m_fio->nBins,1);
   cout  << a.rows() << "x" << a.cols() << endl;
   cout  << testData.rows() << "x" << testData.cols() << endl;
+  ground_truth.resize(m_fio->eBins);
+  ground_truth = testData.col(0);
   b = a * testData;
-  // add some Poisson variance
-    cout<<"val"<<endl;
   for(int i=0; i<b.size(); i++)
   {
     auto val = gRandom->PoissonD(b(i)*100);
@@ -169,39 +168,68 @@ void UNFOLD::generateFakeData(vector<double> en, vector<double> weight)
   }
   return;
 }
+
+double UNFOLD::getRss()
+{
+	Eigen::VectorXf residual = b - getFwdProjection();
+	double rss = residual.transpose() * residual;
+	return rss;
+}
 void UNFOLD::setInitialGuess(float guess)
 {
   x_1.resize(m_fio->eBins,1);
   x.resize(m_fio->eBins,1);
+  x_uncert.resize(m_fio->eBins,1);
   x.setOnes();
   x_1.setOnes();
   //cout << x << endl;
+  //print answer index
   for(int i=0; i<m_fio->eBins; i++)
   {
     if(ansIndex(i,0) < m_fio->threshold)
     {
+//if a bin's energy is less than  the threshold, set the initial bin to zero
+//ohterwise, leave the bin as 1
       x_1(i,0) = 0;
       x(i,0) = 0;
     }
   }
+  z.resize(m_fio->eBins,1);
+  z=x;
+  x_uncert=x;
   return;
 }
 
-void UNFOLD::fwdProject()
+void UNFOLD::calcRMSE()
 {
-  ax = a * x;
-  double rss = 0; // Residual sum squares
-  for(int bN=0; bN<m_fio->nBins; bN++)
+  double rms = getRMSE();
+  rmse2Vals.push_back(rms); // this is now the RMSE
+  rss2Vals.push_back(getStopIndice());
+  if(rmse2Vals.size() > 1)
   {
-    auto val = ax(bN,0) - b(bN,0);
-    val *= val;
-    //val = val / b(bN,0);
-    rss += val;
+	  rmseDeltaVals.push_back(rmse2Vals[rmse2Vals.size()-1] - rmse2Vals[rmse2Vals.size()-2]);
   }
-  //cout << rss << endl;
-  rss2Vals.push_back(rss / m_fio->nBins); // this is now the RMSE
 }
 
+double UNFOLD::getRMSE(){
+  Eigen::VectorXf val= x-ground_truth;
+  Eigen::VectorXf val_sq = val.cwiseProduct(val);
+  double rms = sqrt(val_sq.sum()/m_fio->eBins);
+  return rms;
+}
+std::vector<double> UNFOLD::getRSS()
+{
+  return rss2Vals;
+}
+std::vector<double> UNFOLD::getRMSEDelta()
+{
+  return rmseDeltaVals;
+}
+Eigen::VectorXf UNFOLD::getFwdProjection()
+{
+	  return a * x;
+;
+}
 void UNFOLD::updateSIRT()
 {
   //Eigen::MatrixXf test = catr * ( b - a*x);
@@ -218,17 +246,18 @@ void UNFOLD::updateSIRT()
 }
 
 //change return type to boolean calculate indicatior function and rms error after line 257, return true at intersection when = each other.
-void UNFOLD::updateMLEM()
+Eigen::ArrayXf UNFOLD::updateMLEM()
 {
-  // for each light bin sum the m_fio->eBins
   Eigen::ArrayXf a_x = x.col(0);
   Eigen::ArrayXf a_dem(m_fio->nBins);
-  for(int i=0; i<m_fio->nBins; i++)
+  for(int i=0; i<m_fio->nBins;i++)
   {
     Eigen::ArrayXf a_temp = a.row(i);
     a_temp = a_temp*a_x;
     if(a_temp.sum() == 0) a_dem(i) = 1E-6;
-    else{a_dem(i) = a_temp.sum(); }
+    else{
+	    a_dem(i) = a_temp.sum();
+    }
   }
   // for every enery bin sum the light bins
   Eigen::ArrayXf a_sum(m_fio->eBins);
@@ -247,7 +276,24 @@ void UNFOLD::updateMLEM()
   //if(ansIndex(i,0) < m_fio->threshold) x_1(i,0) = 0;
   // set previous guess to current
   x = x_1;
+  return (x_1);
 }
+
+double UNFOLD::getStopIndice()
+{
+	double rss=getRss();
+	double forwardProjectionSum=getFwdProjection().sum();
+	double stopIndice=rss/getFwdProjection().sum();
+;
+	return  stopIndice;
+
+}
+
+Eigen::VectorXf UNFOLD::getGroundTruth()
+{
+  return ground_truth;
+}
+
 
 void UNFOLD::backProject()
 {
@@ -282,6 +328,8 @@ Eigen::VectorXf UNFOLD::getInSpectrumUncertainties(){
 Eigen::VectorXf UNFOLD::getBestGuess(){
   return x.col(0);
 }
+Eigen::MatrixXf UNFOLD::getResponseMatrix(){
+  return a;}
 
  Eigen::VectorXf UNFOLD::expirementalGetBestGuess(char*name)
 {
@@ -470,7 +518,7 @@ void UNFOLD::plotProjection(char *name)
   for(int bN=0; bN<m_fio->nBins; bN++)
   hFinal->SetBinContent(bN, ax(bN,0));
   hFinal->SetLineColor(2);
-  //hFinal->Draw();
+  hFinal->Draw();
   cout << "reconstructed is red\n";
   hInput = new TH1F(name,"Input;Light Output (MeVee);Counts",m_fio->nBins,0,m_fio->endR);
   for(int bN=0; bN<m_fio->nBins; bN++) // bN = bin number
@@ -510,15 +558,25 @@ void UNFOLD::plotResponseMatrix()
   hRes->Draw("surf1");
 }
 
+void UNFOLD::plotRSS(){
+  new TCanvas;
+  auto hRSS = new TH1F("hRSS",";;",rss2Vals.size(),0,rss2Vals.size());
+  for(int bN=0; bN<rss2Vals.size(); bN++) // bN = bin number
+  {
+    hRSS->SetBinContent(bN+1, rss2Vals.at(bN));
+  }
+  //hRMSE->SetDirectory(0);
+  hRSS->Draw();
+}
 void UNFOLD::plotRMSE()
 {
   new TCanvas;
-  auto hRMSE = new TH1F("hRMSE",";;",rss2Vals.size(),0,rss2Vals.size());
-  for(int bN=0; bN<rss2Vals.size(); bN++) // bN = bin number
+  auto hRMSE = new TH1F("hRMSE",";;",rmse2Vals.size(),0,rmse2Vals.size());
+  for(int bN=0; bN<rmse2Vals.size(); bN++) // bN = bin number
   {
-    hRMSE->SetBinContent(bN+1, rss2Vals.at(bN));
+    hRMSE->SetBinContent(bN+1, rmse2Vals.at(bN));
   }
-  hRMSE->SetDirectory(0);
+  //hRMSE->SetDirectory(0);
   hRMSE->Draw();
 }
 /////////////////////////

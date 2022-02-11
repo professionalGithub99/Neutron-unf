@@ -18,8 +18,9 @@ namespace UNFOLD{
 class UNFOLD
 {
   private:
-    Eigen::MatrixXf a, b, x, x_1, catr, ax, ansIndex;
+    Eigen::MatrixXf a, b, x, x_1, catr, ax, ansIndex,z,x_uncert;
     Eigen::ArrayXf a_norm;
+    Eigen::VectorXf ground_truth;
     FILEIO *m_fio;
     // a - response matrix
     // b - LO spectrum to unfold
@@ -28,6 +29,8 @@ class UNFOLD
     // catr - normalization matrix
     // ax - forward projection
     // ansInex - corresponding energy for a position in x or x_1
+    std::vector<double> rmse2Vals; // rss values as a function of iteration
+    std::vector<double> rmseDeltaVals; // rss values as a function of iteration
     std::vector<double> rss2Vals; // rss values as a function of iteration
   public:
     int nBins;
@@ -40,10 +43,12 @@ class UNFOLD
     void setData(); // fills matrix b
     void generateFakeData(std::vector<double> en, std::vector<double> weight);
     void setInitialGuess(float guess);
-    void fwdProject(); // also calcs rss value for a projection`
-    void updateMLEM(); // update equation for MLEM
+    void calcRMSE(); //calculates rmse 
+    Eigen::ArrayXf updateMLEM(); // update equation for MLEM
     void backProject();
     void updateSIRT(); // update equation for SIRT
+    std::vector<double>getRSS(); // calculate rss value
+    std::vector<double>getRMSEDelta(); // calculate rss value
     // *******
     // SETTERS
     // *******
@@ -55,10 +60,16 @@ Eigen::VectorXf scaleVectorWithKey(Eigen::VectorXf scaleTo, Eigen::VectorXf key,
     // *******
     std::vector<float> getProjection();
     std::vector<float> getProjectionUncertainties();
+    Eigen::VectorXf getFwdProjection();
+    double getStopIndice();
+    double getRss();
+    double getRMSE();
     Eigen::VectorXf getInSpectrum();
     Eigen::VectorXf getInSpectrumUncertainties();
     Eigen::VectorXf getBestGuess();
     Eigen::VectorXf expirementalGetBestGuess(char *name);
+    Eigen::MatrixXf getResponseMatrix();
+    Eigen::VectorXf getGroundTruth();
     // *************
     // histogram visualization
     // *************
@@ -69,6 +80,7 @@ Eigen::VectorXf scaleVectorWithKey(Eigen::VectorXf scaleTo, Eigen::VectorXf key,
     TGraph* plotAnswer(Eigen::VectorXf uncertainties,char *name);
     void plotResponseMatrix();
     void plotRMSE();
+    void plotRSS();
   public:
     TH1F *hFinal;
     TH1F *hInput;

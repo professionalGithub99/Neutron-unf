@@ -9,7 +9,6 @@ void Odessa_SIRT_FakeData()
   fio->setEbins(160);
   fio->setRange(0,10);
   fio->setEnergyIncrement(0.05); // in units of MeV
-
   fio->setResponse("odessa_matrix.txt");
   UNFOLD::UNFOLD s(fio);
   s.printParameters();
@@ -21,8 +20,8 @@ void Odessa_SIRT_FakeData()
 
 /*  vector<double> en = {0.5,3.2,6.2};
   vector<double>  w = {11,16,10};*/
-  vector<double> en = {3.1,6.5};
-  vector<double>  w = {25,15};
+  vector<double> en = {1.1,1.2,1.6,1.7,1.8,2.2,2.3,2.4,3.6,3.7,3.8};
+  vector<double>  w = {1800,2100,8000,9000,10000,1000,1200,1300,1850,1950,1850};
   s.generateFakeData(en, w);
   //s.readInExpSpectrum(iFN,"hPIC");
   //s.setData();
@@ -30,18 +29,41 @@ void Odessa_SIRT_FakeData()
   s.calcNormMatrix();
   cout << "setting initial guess\n";
   s.setInitialGuess(1.);
+  //s.plotProjection("lightOutput");
 
-  // loop over number of iterations for unfolding
-  cout << "updating\n" << endl;\
+
+  //prints the forward projection, light output spectrum, neutron guess, and ground truth neutron specrum does the mlem unfolding for i counts
   for(int i=0; i<500; i++)
   {
-    s.updateMLEM();
+	  //this prints out the various arrays-> forward projection, light output spectrum, neutron guess, and ground truth neutron spectrum
+  /*cout<<"|Fwd Proj|lOutSpect|NeutronGuess|Ground_Truth|"<<endl;
+	std::cout << std::setprecision(5);
+	  for(int j=0; j<s.getFwdProjection().size(); j++)
+	  {
+		  cout<<fixed<<std::setprecision(5)<<s.getFwdProjection()[j]<<"     "<<s.getInSpectrum()[j]<<"     ";
+		  int bestGuessSize=s.getBestGuess().size();
+		  if(j<bestGuessSize)
+		  {
+			  cout<<setprecision(5)<<s.getBestGuess()[j]<<"      "<<s.getGroundTruth()[j]<<endl;
+		  }
+		  else{cout<<endl;}
+	  }*/
+	  cout<<"Iteration:"<<i<<"|Stop Indice:"<<s.getStopIndice()<<"|RSS:"<<s.getRss()<<"|RMSE:"<<s.getRMSE()<<"|Forward Proj Sum:"<<s.getFwdProjection().sum()<<"|Light output Sum:"<<s.getInSpectrum().sum()<<endl;
+	  //append s.getBestGuess() to the end of the matrix
+	  s.updateMLEM();
+	  cout<<endl<<endl;
+	  s.calcRMSE();
   }
 
-  // loop over number of iterations for unfolding
-s.plotInputSpectrum("jj");
-s.plotAnswer("tt");
-uncert=new UNCERT::UNCERT(&s,205,en,w);
+s.plotRSS();
+s.plotRMSE();
+s.plotProjection("lightOutput");
+s.plotAnswer("NeutronSpectrum");
+
+
+
+//uncertainty calculations
+/*uncert=new UNCERT::UNCERT(&s,205,en,w);
 Eigen::MatrixXf reconstMtx= uncert->binGeneration();
 Eigen::MatrixXf simMtx= uncert->unfoldReconstructed();
 //uncert->plotSimulatedMeanByTrial(0,"11");
@@ -52,24 +74,12 @@ uncert->plotBinNumber(131,simMtx,"neutronEnergyBin131;counts;countsgen","testing
 uncert->plotBinNumber(142,simMtx,"neutronEnergyBin142;counts;countsgen","testing2");
 uncert->plotBinNumber(30,reconstMtx,"LOBin30;counts;countsgen","stuff");
 uncert->plotInSpectrumByTrial(2,"example light output spectrum");
-uncert->plotSimulatedMeans("abcdef");
-/*uncert->plotInSpectrumByTrial(0,"am");
-uncert->plotInSpectrumByTrial(1,"tm");
-uncert->plotInSpectrumByTrial(2,"lm");
-uncert->plotInSpectrumByTrial(3,"lim");
-/*uncert->plotSimulatedMeans("Neutron En");
-uncert->plotSimulatedMeanByTrial(0,"11");
-uncert->plotSimulatedMeanByTrial(1,"22");
-uncert->plotSimulatedMeanByTrial(2,"33");
-uncert->plotSimulatedMeanByTrial(3,"44");/*
-//uncert->plotSimulatedMeanByTrial(4,"55");
-//uncert->plotSimulatedMeanByTrial(5,"66");
-/*uncert->plotBinNumber(27,reconstMtx,"jsjesting","testing2");
-uncert->plotBinNumber(29,simMtx,"jsidjg","testing2");*/
-  auto tf_out = new TFile("mlem_out.root","recreate");
+uncert->plotSimulatedMeans("abcdef");*/
 //s.hAnswer->Write();
 // s.hInput->Write();
  // s.hFinal->Write();
+ 
+  auto tf_out = new TFile("mlem_out.root","recreate");
   return;
 }
 
