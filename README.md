@@ -1,8 +1,8 @@
-#Nunf
+##Nunf
 
 NUnf is a cpp library for dealing with neutron spectrum unfolding. It allows creation of an Unfolding object which consists of a response matrix, 
 
-#Installation
+##Installation
 Dependencies:
   ROOT
   Eigen -> static library that is included with the download no action req'd
@@ -26,7 +26,7 @@ Usage:
 
 
 
-#Documentation
+##Documentation
 Todo: publish on a website
 Until then: install doxygen https://www.doxygen.nl/manual/install.html
 Then: run doxygen Doxyfile
