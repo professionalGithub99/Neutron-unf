@@ -1,0 +1,18 @@
+\hypertarget{MCMC_8h_source}{}\doxysection{MCMC.\+h}
+\label{MCMC_8h_source}\index{include/MCMC.h@{include/MCMC.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{keyword}{namespace }UNFOLD;}
+\DoxyCodeLine{2 \textcolor{keyword}{class }\mbox{\hyperlink{classMCMC}{MCMC}}\{}
+\DoxyCodeLine{3 \textcolor{keyword}{private}:}
+\DoxyCodeLine{4 \textcolor{keyword}{public}:}
+\DoxyCodeLine{5   \mbox{\hyperlink{classMCMC}{MCMC}}(Eigen::VectorXf startingGuess,Eigen::MatrixXf responseMatrix,\textcolor{keywordtype}{int} sampleCount );}
+\DoxyCodeLine{6   Eigen::VectorXf currentGuess;}
+\DoxyCodeLine{7   Eigen::VectorXf generateNewSample();\textcolor{comment}{// find a method for generating new sample of neutron guesses}}
+\DoxyCodeLine{8   \textcolor{keywordtype}{void} acceptOrReject();\textcolor{comment}{// use likelihood algorithm to campare curent guess with new sample}}
+\DoxyCodeLine{9   \textcolor{keywordtype}{void} secondChance();\textcolor{comment}{//Metropolis -\/hastings algorithm decide whether to accept or reject}}
+\DoxyCodeLine{10 }
+\DoxyCodeLine{11 }
+\DoxyCodeLine{12 \}}
+
+\end{DoxyCode}

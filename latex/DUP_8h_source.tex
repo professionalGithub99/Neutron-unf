@@ -1,0 +1,56 @@
+\hypertarget{DUP_8h_source}{}\doxysection{DUP.\+h}
+\label{DUP_8h_source}\index{include/DUP.h@{include/DUP.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{// Programmer: Jason Nattress}}
+\DoxyCodeLine{2 \textcolor{comment}{// Purpose: setup input file and response matrix as well as the limits for the}}
+\DoxyCodeLine{3 \textcolor{comment}{// unfolding.}}
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#ifndef \_DUP\_H\_}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#define \_DUP\_H\_}}
+\DoxyCodeLine{6 \textcolor{comment}{//ROOT classes}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include <TH1.h>}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include <TH2.h>}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include <TString.h>}}
+\DoxyCodeLine{10 \textcolor{comment}{//c++ classes}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#include <fstream>}}
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{14 \textcolor{preprocessor}{\#include <iostream>}}
+\DoxyCodeLine{15 }
+\DoxyCodeLine{16 \textcolor{comment}{//using namespace std;}}
+\DoxyCodeLine{17 }
+\DoxyCodeLine{18 \textcolor{keyword}{namespace }UNFOLD\{}
+\DoxyCodeLine{19 }
+\DoxyCodeLine{20 \textcolor{keyword}{class }\mbox{\hyperlink{classUNFOLD_1_1DUP}{DUP}}}
+\DoxyCodeLine{21 \{}
+\DoxyCodeLine{22   \textcolor{keyword}{private}:}
+\DoxyCodeLine{23 }
+\DoxyCodeLine{24   \textcolor{keyword}{public}:}
+\DoxyCodeLine{25     \mbox{\hyperlink{classUNFOLD_1_1DUP}{DUP}}();}
+\DoxyCodeLine{26     \textcolor{comment}{//FILEIO(int i\_rebinVal, int i\_enIncrement);}}
+\DoxyCodeLine{27     \textcolor{comment}{//\string~FILEIO();}}
+\DoxyCodeLine{28 }
+\DoxyCodeLine{29   \textcolor{keyword}{public}:}
+\DoxyCodeLine{30     \textcolor{keywordtype}{int} rebinVal;}
+\DoxyCodeLine{31     \textcolor{keywordtype}{int} numOfSimBins; \textcolor{comment}{// I think these are the same things}}
+\DoxyCodeLine{32     \textcolor{keywordtype}{int} nBins; \textcolor{comment}{// numner of L.O. bins for a single energy}}
+\DoxyCodeLine{33     \textcolor{keywordtype}{int} eBins; \textcolor{comment}{// number of energies in response matrix}}
+\DoxyCodeLine{34     \textcolor{keywordtype}{double} startR; \textcolor{comment}{// first neutron energy in response}}
+\DoxyCodeLine{35     \textcolor{keywordtype}{double} endR;   \textcolor{comment}{// last neutron energy in response}}
+\DoxyCodeLine{36     \textcolor{keywordtype}{double} startL;}
+\DoxyCodeLine{37     \textcolor{keywordtype}{double} endL;}
+\DoxyCodeLine{38 }
+\DoxyCodeLine{39     std::vector<float> *inSpectrum; \textcolor{comment}{// spectrum that you will unfold}}
+\DoxyCodeLine{40     std::vector<float> *response;   \textcolor{comment}{// your response}}
+\DoxyCodeLine{41     \textcolor{keywordtype}{float}          energyIncrement; \textcolor{comment}{// energy increment of the response}}
+\DoxyCodeLine{42     \textcolor{keywordtype}{double}         threshold; \textcolor{comment}{// L.O. threshold}}
+\DoxyCodeLine{43     \textcolor{keywordtype}{int}            nFiles; \textcolor{comment}{// this is from input txt response file or as an}}
+\DoxyCodeLine{44                            \textcolor{comment}{// input in the constructor. This file should}}
+\DoxyCodeLine{45                            \textcolor{comment}{// equal the eBins}}
+\DoxyCodeLine{46 }
+\DoxyCodeLine{47 \};}
+\DoxyCodeLine{48 \}}
+\DoxyCodeLine{49 }
+\DoxyCodeLine{50 \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

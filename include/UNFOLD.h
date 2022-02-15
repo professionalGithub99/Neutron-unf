@@ -15,6 +15,10 @@
 
 namespace UNFOLD{
 
+/**
+ * \details This class is used to aggregate various classes that are part of a neutron unfolding such as response matrix, light output spectrum, neutron guess spectrum and more
+ * 
+ */
 class UNFOLD
 {
   private:
@@ -64,6 +68,8 @@ Eigen::VectorXf scaleVectorWithKey(Eigen::VectorXf scaleTo, Eigen::VectorXf key,
     double getStopIndice();
     double getRss();
     double getRMSE();
+    double getMeanInSpectrumBinCount();
+    double getMD(Eigen::VectorXf fwdProj);
     Eigen::VectorXf getInSpectrum();
     Eigen::VectorXf getInSpectrumUncertainties();
     Eigen::VectorXf getBestGuess();
@@ -81,6 +87,7 @@ Eigen::VectorXf scaleVectorWithKey(Eigen::VectorXf scaleTo, Eigen::VectorXf key,
     void plotResponseMatrix();
     void plotRMSE();
     void plotRSS();
+    void plotTheoreticalMD(char *name);
   public:
     TH1F *hFinal;
     TH1F *hInput;

@@ -1,0 +1,74 @@
+\hypertarget{UNCERT_8h_source}{}\doxysection{UNCERT.\+h}
+\label{UNCERT_8h_source}\index{include/UNCERT.h@{include/UNCERT.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#ifndef \_UNCERT\_H\_}}
+\DoxyCodeLine{3 \textcolor{preprocessor}{\#define \_UNCERT\_H\_}}
+\DoxyCodeLine{4 \textcolor{comment}{//Eigen}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include <Eigen/Core>}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include <Eigen/Dense>}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include <TH1.h>}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include <TCanvas.h>}}
+\DoxyCodeLine{9 \textcolor{comment}{// including Root stuff}}
+\DoxyCodeLine{10 }
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#include <fstream>}}
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#include <iostream>}}
+\DoxyCodeLine{14 \textcolor{preprocessor}{\#include <TRandom.h>}}
+\DoxyCodeLine{15 \textcolor{preprocessor}{\#include<UNFOLD.h>}}
+\DoxyCodeLine{16 \textcolor{preprocessor}{\#include<TProfile.h>}}
+\DoxyCodeLine{17 \textcolor{preprocessor}{\#include<TMath.h>}}
+\DoxyCodeLine{18 \textcolor{keyword}{using namespace }std;}
+\DoxyCodeLine{19 \textcolor{keyword}{namespace }UNCERT\{}
+\DoxyCodeLine{20     \textcolor{keyword}{class }\mbox{\hyperlink{classUNCERT_1_1UNCERT}{UNCERT}}\{}
+\DoxyCodeLine{21     \textcolor{keyword}{private}:}
+\DoxyCodeLine{22     \textcolor{keyword}{public}:}
+\DoxyCodeLine{23         \mbox{\hyperlink{classUNCERT_1_1UNCERT}{UNCERT}}(\mbox{\hyperlink{classUNFOLD_1_1UNFOLD}{UNFOLD::UNFOLD}} *unfold\_pnt,\textcolor{keywordtype}{int} sampleCount,vector<double> en,vector<double> w);}
+\DoxyCodeLine{24 }
+\DoxyCodeLine{25         vector<double>en;}
+\DoxyCodeLine{26         vector<double>w;}
+\DoxyCodeLine{27         Eigen::MatrixXf binGeneration();}
+\DoxyCodeLine{28         Eigen::MatrixXf unfoldReconstructed();}
+\DoxyCodeLine{29         Eigen::VectorXf generateFakeData();}
+\DoxyCodeLine{30         Eigen::VectorXf standardDeviation(Eigen::MatrixXf matrix);}
+\DoxyCodeLine{31         Eigen::VectorXf mean(Eigen::MatrixXf matrix);}
+\DoxyCodeLine{32         \textcolor{keywordtype}{void} plotBinNumber(\textcolor{keywordtype}{int} binNumber, Eigen::MatrixXf matrix,\textcolor{keywordtype}{char} *name,\textcolor{keyword}{const} \textcolor{keywordtype}{char} *title);}
+\DoxyCodeLine{33         \textcolor{keywordtype}{void} setSimulatedUncertainties();}
+\DoxyCodeLine{34         \textcolor{keywordtype}{void} setSimulatedMeans();}
+\DoxyCodeLine{35         \textcolor{keywordtype}{void} setSimulatedSums();}
+\DoxyCodeLine{36         \textcolor{keywordtype}{void} plotSimulatedMeans(\textcolor{keywordtype}{char} *name);}
+\DoxyCodeLine{37         \textcolor{keywordtype}{void} plotInSpectrumByTrial(\textcolor{keywordtype}{int} trialNumber,\textcolor{keywordtype}{char}* name);}
+\DoxyCodeLine{38         \textcolor{keywordtype}{void} plotSimulatedMeanByTrial(\textcolor{keywordtype}{int} trialNumber,\textcolor{keywordtype}{char} *name);}
+\DoxyCodeLine{39         \textcolor{keywordtype}{void} gen\_random(\textcolor{keywordtype}{char} *s, \textcolor{keywordtype}{size\_t} len);}
+\DoxyCodeLine{40         \textcolor{keywordtype}{void} printTwoVectors(Eigen::VectorXf v1, Eigen::VectorXf v2);}
+\DoxyCodeLine{41 }
+\DoxyCodeLine{42         \textcolor{comment}{//*******************}}
+\DoxyCodeLine{43         \textcolor{comment}{//HELPER FUNCTIONS}}
+\DoxyCodeLine{44         \textcolor{comment}{//********************}}
+\DoxyCodeLine{45         Eigen::VectorXf scaleVectorOverOne(Eigen::VectorXf vector);}
+\DoxyCodeLine{46         \textcolor{comment}{//*****************}}
+\DoxyCodeLine{47         \textcolor{comment}{//INITIAL VARS}}
+\DoxyCodeLine{48         \textcolor{comment}{//****************}}
+\DoxyCodeLine{49         Eigen::VectorXf inSpectrum;}
+\DoxyCodeLine{50         Eigen::VectorXf inSpectrumUncertainties;}
+\DoxyCodeLine{51         \mbox{\hyperlink{classUNFOLD_1_1UNFOLD}{UNFOLD::UNFOLD}} *unfold\_pnt;}
+\DoxyCodeLine{52         \textcolor{comment}{//*****************}}
+\DoxyCodeLine{53         \textcolor{comment}{//RECONSTRUCTED DATA STRUCTS}}
+\DoxyCodeLine{54         \textcolor{comment}{//****************}}
+\DoxyCodeLine{55         Eigen::MatrixXf reconstructedBinMatrix;}
+\DoxyCodeLine{56         Eigen::VectorXf reconstructedBinUncertainties;}
+\DoxyCodeLine{57         \textcolor{comment}{//*****************}}
+\DoxyCodeLine{58         \textcolor{comment}{//NEWLY SIM DATA}}
+\DoxyCodeLine{59         \textcolor{comment}{//****************}}
+\DoxyCodeLine{60         Eigen::MatrixXf simulatedBinMatrix;}
+\DoxyCodeLine{61         Eigen::VectorXf simulatedBinMeans;}
+\DoxyCodeLine{62         Eigen::VectorXf simulatedBinSums;}
+\DoxyCodeLine{63         Eigen::VectorXf simulatedBinUncertainties;}
+\DoxyCodeLine{64 }
+\DoxyCodeLine{65         \textcolor{keywordtype}{int} sampleCount;}
+\DoxyCodeLine{66     \};}
+\DoxyCodeLine{67 \}}
+\DoxyCodeLine{68 \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

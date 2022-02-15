@@ -1,6 +1,7 @@
 #include "UNFOLD.h"
 //ROOT classes
 #include <TFile.h>
+#include <TF1.h>
 #include <TH1.h>
 #include <TGraph.h>
 #include <TString.h>
@@ -15,8 +16,10 @@
 #include <iostream>
 // reference: https://tomroelandts.com/articles/the-sirt-algorithm
 using namespace std;
+
 namespace UNFOLD
 {
+
   // this default constructor
   UNFOLD::UNFOLD(FILEIO *fio)
   {
@@ -41,12 +44,7 @@ namespace UNFOLD
 //cout << "make sure you are calling the right constructor.\n";
 }
 
-//
-//UNFOLD::UNFOLD(double i_enIncrement)
-//{
-//m_fio->energyIncrement = i_enIncrement;
-//cout << "eIncrement = " << m_fio->energyIncrement << endl;
-//}
+
 void UNFOLD::printParameters()
 {
   cout << "*** UNFOLD Parameters ***\n";
@@ -217,6 +215,15 @@ double UNFOLD::getRMSE(){
   double rms = sqrt(val_sq.sum()/m_fio->eBins);
   return rms;
 }
+
+double UNFOLD::getMeanInSpectrumBinCount(){
+	double mean = 0;
+	//sum all elements of b
+	for(int i=0; i<b.size(); i++){
+		mean += b(i,0);
+	}
+	mean = mean/b.size();
+}
 std::vector<double> UNFOLD::getRSS()
 {
   return rss2Vals;
@@ -228,7 +235,16 @@ std::vector<double> UNFOLD::getRMSEDelta()
 Eigen::VectorXf UNFOLD::getFwdProjection()
 {
 	  return a * x;
-;
+}
+double UNFOLD::getMD(Eigen::VectorXf fwdProj)
+{	//take the absolute value of the difference between the forward projection and the b vector
+	//sum all elements of the difference vector
+	//divide by the number of elements in the difference vector
+	//return the result
+	Eigen::VectorXf val= fwdProj-b;
+	Eigen::VectorXf val_sq = val.cwiseProduct(val);
+	double meanDeviation= sqrt(val_sq.sum())/m_fio->nBins;
+	return meanDeviation;
 }
 void UNFOLD::updateSIRT()
 {
@@ -578,6 +594,19 @@ void UNFOLD::plotRMSE()
   }
   //hRMSE->SetDirectory(0);
   hRMSE->Draw();
+}
+
+void UNFOLD::plotTheoreticalMD(char *name)
+{
+  auto cv= new TCanvas;
+  //create a histogram that ranges from 0 to 10^6 on the x-axis and 0 to 10^6 on the y-axis
+  //fill the histogram with the theoretical values
+  
+  TF1 *fb2 = new TF1("fa3","(pow(x,x+1)*2*exp(-x))/TMath::Factorial(x)",0,30);
+  //set fb2 to log scale
+fb2->Draw();
+  cv->SetLogx();
+  cv->SetLogy();
 }
 /////////////////////////
 } // end namespace UNFOLD

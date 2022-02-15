@@ -1,0 +1,76 @@
+\hypertarget{FILEIO_8h_source}{}\doxysection{FILEIO.\+h}
+\label{FILEIO_8h_source}\index{include/FILEIO.h@{include/FILEIO.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{// Programmer: Jason Nattress}}
+\DoxyCodeLine{2 \textcolor{comment}{// Purpose: setup input file and response matrix as well as the limits for the}}
+\DoxyCodeLine{3 \textcolor{comment}{// unfolding.}}
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#ifndef \_FILEIO\_H\_}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#define \_FILEIO\_H\_}}
+\DoxyCodeLine{6 \textcolor{comment}{//ROOT classes}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include <TH1.h>}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include <TH2.h>}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include <TString.h>}}
+\DoxyCodeLine{10 \textcolor{comment}{//c++ classes}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#include <fstream>}}
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{14 \textcolor{preprocessor}{\#include <iostream>}}
+\DoxyCodeLine{15 \textcolor{comment}{//using namespace std;}}
+\DoxyCodeLine{16 }
+\DoxyCodeLine{17 \textcolor{keyword}{namespace }UNFOLD\{}
+\DoxyCodeLine{18 }
+\DoxyCodeLine{19 \textcolor{keyword}{class }\mbox{\hyperlink{classUNFOLD_1_1FILEIO}{FILEIO}}}
+\DoxyCodeLine{20 \{}
+\DoxyCodeLine{21   \textcolor{keyword}{private}:}
+\DoxyCodeLine{22 }
+\DoxyCodeLine{23   \textcolor{keyword}{public}:}
+\DoxyCodeLine{24     \mbox{\hyperlink{classUNFOLD_1_1FILEIO}{FILEIO}}();}
+\DoxyCodeLine{25     \textcolor{comment}{//FILEIO(int i\_rebinVal, int i\_enIncrement);}}
+\DoxyCodeLine{26     \textcolor{comment}{//\string~FILEIO();}}
+\DoxyCodeLine{27   \textcolor{keyword}{public}:}
+\DoxyCodeLine{28     \textcolor{keywordtype}{int} rebinVal;}
+\DoxyCodeLine{29     \textcolor{keywordtype}{int} numOfSimBins; \textcolor{comment}{// I think these are the same things}}
+\DoxyCodeLine{30     \textcolor{keywordtype}{int} nBins; \textcolor{comment}{// numner of L.O. bins for a single energy}}
+\DoxyCodeLine{31     \textcolor{keywordtype}{int} eBins; \textcolor{comment}{// number of energies in response matrix}}
+\DoxyCodeLine{32     \textcolor{keywordtype}{double} startR; \textcolor{comment}{// first neutron energy in response}}
+\DoxyCodeLine{33     \textcolor{keywordtype}{double} endR;   \textcolor{comment}{// last neutron energy in response}}
+\DoxyCodeLine{34     \textcolor{keywordtype}{double} startL;}
+\DoxyCodeLine{35     \textcolor{keywordtype}{double} endL;}
+\DoxyCodeLine{36     std::vector<float> *inSpectrum; \textcolor{comment}{// spectrum that you will unfold}}
+\DoxyCodeLine{37     std::vector<float> *response;   \textcolor{comment}{// your response}}
+\DoxyCodeLine{38     \textcolor{keywordtype}{float}          energyIncrement; \textcolor{comment}{// energy increment of the response}}
+\DoxyCodeLine{39     \textcolor{keywordtype}{double}         threshold; \textcolor{comment}{// L.O. threshold}}
+\DoxyCodeLine{40     \textcolor{keywordtype}{int}            nFiles; \textcolor{comment}{// this is from input txt response file or as an}}
+\DoxyCodeLine{41                            \textcolor{comment}{// input in the constructor. This file should}}
+\DoxyCodeLine{42                            \textcolor{comment}{// equal the eBins}}
+\DoxyCodeLine{43   \textcolor{keyword}{public}:}
+\DoxyCodeLine{44     \textcolor{keywordtype}{void} setNbins(\textcolor{keywordtype}{int} num); \textcolor{comment}{// This is equal to the number of bins in a single}}
+\DoxyCodeLine{45                             \textcolor{comment}{// response meaning a single energy}}
+\DoxyCodeLine{46     \textcolor{keywordtype}{void} setEbins(\textcolor{keywordtype}{int} num); \textcolor{comment}{// This is the number of energies you simulated or}}
+\DoxyCodeLine{47                             \textcolor{comment}{// measured.}}
+\DoxyCodeLine{48 }
+\DoxyCodeLine{49     \textcolor{keywordtype}{void} setThreshold(\textcolor{keywordtype}{float} t); \textcolor{comment}{// units in MeVee;}}
+\DoxyCodeLine{50                                 \textcolor{comment}{// sets bin \# for threshold and range for}}
+\DoxyCodeLine{51                                 \textcolor{comment}{// unfolding}}
+\DoxyCodeLine{52     \textcolor{keywordtype}{void} setRange(\textcolor{keywordtype}{double} start, \textcolor{keywordtype}{double} end);}
+\DoxyCodeLine{53     \textcolor{comment}{// energy increment of response matrix}}
+\DoxyCodeLine{54     \textcolor{keywordtype}{void} setEnergyIncrement(\textcolor{keywordtype}{float} en);}
+\DoxyCodeLine{55     \textcolor{comment}{// give path to file, number of files and the file extentsion.}}
+\DoxyCodeLine{56     \textcolor{comment}{// You need to go and look at the method itself and maybe change it to}}
+\DoxyCodeLine{57     \textcolor{comment}{// whatever you want. Feel free to make this more slick if you want.}}
+\DoxyCodeLine{58     \textcolor{keywordtype}{void} setResponse(TString pathToSimFiles, \textcolor{keywordtype}{int} i\_nFiles, TString fExt);}
+\DoxyCodeLine{59     \textcolor{comment}{// Creates response files from a txt file. This method orginally written to}}
+\DoxyCodeLine{60     \textcolor{comment}{// take in the measured response from an Odessa detector}}
+\DoxyCodeLine{61     \textcolor{keywordtype}{void} setResponse(std::string iFN);}
+\DoxyCodeLine{62     \textcolor{comment}{// give path with name and histogram name}}
+\DoxyCodeLine{63     \textcolor{keywordtype}{void} readInExpSpectrum(TString fN, TString hName);}
+\DoxyCodeLine{64 }
+\DoxyCodeLine{65     \textcolor{keywordtype}{void} setRebinVal(\textcolor{keywordtype}{int} val) \{rebinVal = val;\}}
+\DoxyCodeLine{66     \textcolor{keywordtype}{void} setLORange(\textcolor{keywordtype}{double} iR, \textcolor{keywordtype}{double} eR);}
+\DoxyCodeLine{67 \};}
+\DoxyCodeLine{68 \}}
+\DoxyCodeLine{69 }
+\DoxyCodeLine{70 \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

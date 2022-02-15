@@ -1,0 +1,42 @@
+\hypertarget{Vis_8h_source}{}\doxysection{Vis.\+h}
+\label{Vis_8h_source}\index{include/Vis.h@{include/Vis.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{//Programmer: Jason Nattress}}
+\DoxyCodeLine{2 \textcolor{comment}{//Purpose:}}
+\DoxyCodeLine{3 \textcolor{preprocessor}{\#ifndef \_Vis\_H\_}}
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#define \_Vis\_H\_}}
+\DoxyCodeLine{5 \textcolor{comment}{//ROOT classes}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include <TH1.h>}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include <TH2.h>}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include <TString.h>}}
+\DoxyCodeLine{9 \textcolor{comment}{//c++ classes}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#include <fstream>}}
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{13 }
+\DoxyCodeLine{14 \textcolor{keyword}{namespace }UNFOLD\{}
+\DoxyCodeLine{15 }
+\DoxyCodeLine{16 \textcolor{keyword}{class }\mbox{\hyperlink{classUNFOLD_1_1Vis}{Vis}}}
+\DoxyCodeLine{17 \{}
+\DoxyCodeLine{18   \textcolor{keyword}{private}:}
+\DoxyCodeLine{19 }
+\DoxyCodeLine{20   \textcolor{keyword}{public}:}
+\DoxyCodeLine{21     \mbox{\hyperlink{classUNFOLD_1_1Vis}{Vis}}();}
+\DoxyCodeLine{22     \mbox{\hyperlink{classUNFOLD_1_1Vis}{\string~Vis}}();}
+\DoxyCodeLine{23     TH1F *histEDep;   \textcolor{comment}{// simulated deposited energy spectrum from Geant}}
+\DoxyCodeLine{24     TH1F *histSmear;  \textcolor{comment}{// smeared simulated histogram from Geant}}
+\DoxyCodeLine{25     TH1F *histExpCal; \textcolor{comment}{// calibrated exp LO spectrum (spectrum to unfold)}}
+\DoxyCodeLine{26     TH1F *histToPlot[10]; \textcolor{comment}{// this should be dynamically allocated but I am}}
+\DoxyCodeLine{27                           \textcolor{comment}{// leaving that for now...}}
+\DoxyCodeLine{28 }
+\DoxyCodeLine{29   \textcolor{keyword}{public}:}
+\DoxyCodeLine{30     \textcolor{keywordtype}{void} loadSimHistoFile(TString iFN);}
+\DoxyCodeLine{31     \textcolor{keywordtype}{void} loadExpHistoFile(TString iFN);}
+\DoxyCodeLine{32     \textcolor{keywordtype}{void} histoVector(TString name, \textcolor{keywordtype}{int} nH, std::vector<float> v, \textcolor{keywordtype}{int} bR, \textcolor{keywordtype}{int} eR);}
+\DoxyCodeLine{33 \};}
+\DoxyCodeLine{34 \}}
+\DoxyCodeLine{35 }
+\DoxyCodeLine{36 \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

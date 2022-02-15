@@ -1,0 +1,149 @@
+\hypertarget{classUNFOLD_1_1UNFOLD}{}\doxysection{UNFOLD\+::UNFOLD Class Reference}
+\label{classUNFOLD_1_1UNFOLD}\index{UNFOLD::UNFOLD@{UNFOLD::UNFOLD}}
+
+
+{\ttfamily \#include $<$UNFOLD.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classUNFOLD_1_1UNFOLD_a356daa2e949a85203c57f9db291f7b0d}\label{classUNFOLD_1_1UNFOLD_a356daa2e949a85203c57f9db291f7b0d}} 
+{\bfseries UNFOLD} (\mbox{\hyperlink{classUNFOLD_1_1FILEIO}{FILEIO}} $\ast$fio)
+\item 
+\mbox{\Hypertarget{classUNFOLD_1_1UNFOLD_a5a55a2d4c53a674a0896ef8f57b4ce3d}\label{classUNFOLD_1_1UNFOLD_a5a55a2d4c53a674a0896ef8f57b4ce3d}} 
+void {\bfseries print\+Parameters} ()
+\item 
+\mbox{\Hypertarget{classUNFOLD_1_1UNFOLD_a2146e9ca2d2f1628991cdc06dba1c75d}\label{classUNFOLD_1_1UNFOLD_a2146e9ca2d2f1628991cdc06dba1c75d}} 
+void {\bfseries set\+Response\+Matrix} ()
+\item 
+\mbox{\Hypertarget{classUNFOLD_1_1UNFOLD_aedb6f6b03ffa6e4899ffb8c64a03c526}\label{classUNFOLD_1_1UNFOLD_aedb6f6b03ffa6e4899ffb8c64a03c526}} 
+void {\bfseries calc\+Norm\+Matrix} ()
+\item 
+\mbox{\Hypertarget{classUNFOLD_1_1UNFOLD_ab2748b9f26beb5b47f8c87f7f3313c34}\label{classUNFOLD_1_1UNFOLD_ab2748b9f26beb5b47f8c87f7f3313c34}} 
+void {\bfseries set\+Data} ()
+\item 
+\mbox{\Hypertarget{classUNFOLD_1_1UNFOLD_a347fc1a4388574673ba3f9afee901d12}\label{classUNFOLD_1_1UNFOLD_a347fc1a4388574673ba3f9afee901d12}} 
+void {\bfseries generate\+Fake\+Data} (std\+::vector$<$ double $>$ en, std\+::vector$<$ double $>$ weight)
+\item 
+\mbox{\Hypertarget{classUNFOLD_1_1UNFOLD_af3df21cc556d03a5da6b59fe76e7a7b8}\label{classUNFOLD_1_1UNFOLD_af3df21cc556d03a5da6b59fe76e7a7b8}} 
+void {\bfseries set\+Initial\+Guess} (float guess)
+\item 
+\mbox{\Hypertarget{classUNFOLD_1_1UNFOLD_a9e5fe5c83cace0a25b219f9eac9c1884}\label{classUNFOLD_1_1UNFOLD_a9e5fe5c83cace0a25b219f9eac9c1884}} 
+void {\bfseries calc\+RMSE} ()
+\item 
+\mbox{\Hypertarget{classUNFOLD_1_1UNFOLD_a8bce75d80f1c945dcde9a64b749236a4}\label{classUNFOLD_1_1UNFOLD_a8bce75d80f1c945dcde9a64b749236a4}} 
+Eigen\+::\+Array\+Xf {\bfseries update\+MLEM} ()
+\item 
+\mbox{\Hypertarget{classUNFOLD_1_1UNFOLD_aabde986191924917dce925d484c26177}\label{classUNFOLD_1_1UNFOLD_aabde986191924917dce925d484c26177}} 
+void {\bfseries back\+Project} ()
+\item 
+\mbox{\Hypertarget{classUNFOLD_1_1UNFOLD_a00eb6ca717bab752a9dca6bec64f3b72}\label{classUNFOLD_1_1UNFOLD_a00eb6ca717bab752a9dca6bec64f3b72}} 
+void {\bfseries update\+SIRT} ()
+\item 
+\mbox{\Hypertarget{classUNFOLD_1_1UNFOLD_ac6c8757783a7b6426b8848cf6118598d}\label{classUNFOLD_1_1UNFOLD_ac6c8757783a7b6426b8848cf6118598d}} 
+std\+::vector$<$ double $>$ {\bfseries get\+RSS} ()
+\item 
+\mbox{\Hypertarget{classUNFOLD_1_1UNFOLD_aa7ce41db7d2a6c48b76b77ac790e9323}\label{classUNFOLD_1_1UNFOLD_aa7ce41db7d2a6c48b76b77ac790e9323}} 
+std\+::vector$<$ double $>$ {\bfseries get\+RMSEDelta} ()
+\item 
+\mbox{\Hypertarget{classUNFOLD_1_1UNFOLD_a6d10d0a297f5bcea972e61ab39260d52}\label{classUNFOLD_1_1UNFOLD_a6d10d0a297f5bcea972e61ab39260d52}} 
+void {\bfseries set\+In\+Spectrum} (Eigen\+::\+Vector\+Xf vect)
+\item 
+\mbox{\Hypertarget{classUNFOLD_1_1UNFOLD_ad4182ef2d7c5202f1ce4a8dfc2f04e97}\label{classUNFOLD_1_1UNFOLD_ad4182ef2d7c5202f1ce4a8dfc2f04e97}} 
+void {\bfseries set\+Input\+Energy} (Eigen\+::\+Vector\+Xf vect)
+\item 
+\mbox{\Hypertarget{classUNFOLD_1_1UNFOLD_ae8b4bd505908a66eab1d84147d687d2d}\label{classUNFOLD_1_1UNFOLD_ae8b4bd505908a66eab1d84147d687d2d}} 
+Eigen\+::\+Vector\+Xf {\bfseries scale\+Vector\+With\+Key} (Eigen\+::\+Vector\+Xf scale\+To, Eigen\+::\+Vector\+Xf key, Eigen\+::\+Vector\+Xf scale)
+\item 
+\mbox{\Hypertarget{classUNFOLD_1_1UNFOLD_ae10bfa9372988b40b7a4afa5ce55a91a}\label{classUNFOLD_1_1UNFOLD_ae10bfa9372988b40b7a4afa5ce55a91a}} 
+std\+::vector$<$ float $>$ {\bfseries get\+Projection} ()
+\item 
+\mbox{\Hypertarget{classUNFOLD_1_1UNFOLD_a26dca5bdb356c6e0ed63258a4b279ef4}\label{classUNFOLD_1_1UNFOLD_a26dca5bdb356c6e0ed63258a4b279ef4}} 
+std\+::vector$<$ float $>$ {\bfseries get\+Projection\+Uncertainties} ()
+\item 
+\mbox{\Hypertarget{classUNFOLD_1_1UNFOLD_a270bad9eac9c723bd9fa3bc4dd9cf5bd}\label{classUNFOLD_1_1UNFOLD_a270bad9eac9c723bd9fa3bc4dd9cf5bd}} 
+Eigen\+::\+Vector\+Xf {\bfseries get\+Fwd\+Projection} ()
+\item 
+\mbox{\Hypertarget{classUNFOLD_1_1UNFOLD_a424298f19fe715445b7ada3ec86669b3}\label{classUNFOLD_1_1UNFOLD_a424298f19fe715445b7ada3ec86669b3}} 
+double {\bfseries get\+Stop\+Indice} ()
+\item 
+\mbox{\Hypertarget{classUNFOLD_1_1UNFOLD_a3e2df55a3e6377c3bd86f28c055a899f}\label{classUNFOLD_1_1UNFOLD_a3e2df55a3e6377c3bd86f28c055a899f}} 
+double {\bfseries get\+Rss} ()
+\item 
+\mbox{\Hypertarget{classUNFOLD_1_1UNFOLD_a18512ea5ff8934f3645ed81ce7e299c7}\label{classUNFOLD_1_1UNFOLD_a18512ea5ff8934f3645ed81ce7e299c7}} 
+double {\bfseries get\+RMSE} ()
+\item 
+\mbox{\Hypertarget{classUNFOLD_1_1UNFOLD_a9325be107cdab5daa58350773a509ef8}\label{classUNFOLD_1_1UNFOLD_a9325be107cdab5daa58350773a509ef8}} 
+Eigen\+::\+Vector\+Xf {\bfseries get\+In\+Spectrum} ()
+\item 
+\mbox{\Hypertarget{classUNFOLD_1_1UNFOLD_a3447876c5b9517a031812be8ebb5f2fe}\label{classUNFOLD_1_1UNFOLD_a3447876c5b9517a031812be8ebb5f2fe}} 
+Eigen\+::\+Vector\+Xf {\bfseries get\+In\+Spectrum\+Uncertainties} ()
+\item 
+\mbox{\Hypertarget{classUNFOLD_1_1UNFOLD_a86a1590c93145f623aad4b7738314bed}\label{classUNFOLD_1_1UNFOLD_a86a1590c93145f623aad4b7738314bed}} 
+Eigen\+::\+Vector\+Xf {\bfseries get\+Best\+Guess} ()
+\item 
+\mbox{\Hypertarget{classUNFOLD_1_1UNFOLD_a9f903c2edd3af4af21d024525c215752}\label{classUNFOLD_1_1UNFOLD_a9f903c2edd3af4af21d024525c215752}} 
+Eigen\+::\+Vector\+Xf {\bfseries expiremental\+Get\+Best\+Guess} (char $\ast$name)
+\item 
+\mbox{\Hypertarget{classUNFOLD_1_1UNFOLD_ab8614a928dfc87d341b1b1cb3d2aecd3}\label{classUNFOLD_1_1UNFOLD_ab8614a928dfc87d341b1b1cb3d2aecd3}} 
+Eigen\+::\+Matrix\+Xf {\bfseries get\+Response\+Matrix} ()
+\item 
+\mbox{\Hypertarget{classUNFOLD_1_1UNFOLD_abe1ed05360be1c949f13988aa70ac464}\label{classUNFOLD_1_1UNFOLD_abe1ed05360be1c949f13988aa70ac464}} 
+Eigen\+::\+Vector\+Xf {\bfseries get\+Ground\+Truth} ()
+\item 
+\mbox{\Hypertarget{classUNFOLD_1_1UNFOLD_a1ed0e550661187a7b0a7048e747cc024}\label{classUNFOLD_1_1UNFOLD_a1ed0e550661187a7b0a7048e747cc024}} 
+void {\bfseries plot\+Response\+For\+An\+Energy} (double energy)
+\item 
+\mbox{\Hypertarget{classUNFOLD_1_1UNFOLD_aa8bc8672ded492f39d859f1734c3892b}\label{classUNFOLD_1_1UNFOLD_aa8bc8672ded492f39d859f1734c3892b}} 
+void {\bfseries plot\+Input\+Spectrum} (char $\ast$name)
+\item 
+\mbox{\Hypertarget{classUNFOLD_1_1UNFOLD_a0e54bfa6ed4207dbf28389f15d17a8d3}\label{classUNFOLD_1_1UNFOLD_a0e54bfa6ed4207dbf28389f15d17a8d3}} 
+void {\bfseries plot\+Projection} (char $\ast$name)
+\item 
+\mbox{\Hypertarget{classUNFOLD_1_1UNFOLD_aaf69ec1b28f19605870ac78f5796efcc}\label{classUNFOLD_1_1UNFOLD_aaf69ec1b28f19605870ac78f5796efcc}} 
+TGraph $\ast$ {\bfseries plot\+Answer} (char $\ast$name)
+\item 
+\mbox{\Hypertarget{classUNFOLD_1_1UNFOLD_a2de7c8e83fb19251d1f85da0a89993d5}\label{classUNFOLD_1_1UNFOLD_a2de7c8e83fb19251d1f85da0a89993d5}} 
+TGraph $\ast$ {\bfseries plot\+Answer} (Eigen\+::\+Vector\+Xf uncertainties, char $\ast$name)
+\item 
+\mbox{\Hypertarget{classUNFOLD_1_1UNFOLD_a0e70742691f3061dd31041964960610e}\label{classUNFOLD_1_1UNFOLD_a0e70742691f3061dd31041964960610e}} 
+void {\bfseries plot\+Response\+Matrix} ()
+\item 
+\mbox{\Hypertarget{classUNFOLD_1_1UNFOLD_af009f513ee1b1487eb9c59c190647ace}\label{classUNFOLD_1_1UNFOLD_af009f513ee1b1487eb9c59c190647ace}} 
+void {\bfseries plot\+RMSE} ()
+\item 
+\mbox{\Hypertarget{classUNFOLD_1_1UNFOLD_add9c85768c0961fc5c119d941f3a1a7a}\label{classUNFOLD_1_1UNFOLD_add9c85768c0961fc5c119d941f3a1a7a}} 
+void {\bfseries plot\+RSS} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classUNFOLD_1_1UNFOLD_aabf78742dcc9736e6ca52fcce5593075}\label{classUNFOLD_1_1UNFOLD_aabf78742dcc9736e6ca52fcce5593075}} 
+int {\bfseries n\+Bins}
+\item 
+\mbox{\Hypertarget{classUNFOLD_1_1UNFOLD_a08a37b520cd4eaac43b2e901d57d80bd}\label{classUNFOLD_1_1UNFOLD_a08a37b520cd4eaac43b2e901d57d80bd}} 
+int {\bfseries e\+Bins}
+\item 
+\mbox{\Hypertarget{classUNFOLD_1_1UNFOLD_a6ec44b7929845c6717ec15a4f74aa761}\label{classUNFOLD_1_1UNFOLD_a6ec44b7929845c6717ec15a4f74aa761}} 
+TH1F $\ast$ {\bfseries h\+Final}
+\item 
+\mbox{\Hypertarget{classUNFOLD_1_1UNFOLD_a5fdcd949612fe173cf898c3d76a390e6}\label{classUNFOLD_1_1UNFOLD_a5fdcd949612fe173cf898c3d76a390e6}} 
+TH1F $\ast$ {\bfseries h\+Input}
+\item 
+\mbox{\Hypertarget{classUNFOLD_1_1UNFOLD_afa1f5d02eaf5220d8e05e988e1e0d3db}\label{classUNFOLD_1_1UNFOLD_afa1f5d02eaf5220d8e05e988e1e0d3db}} 
+TH1F $\ast$ {\bfseries h\+Answer}
+\item 
+\mbox{\Hypertarget{classUNFOLD_1_1UNFOLD_a5a4fa0b2a2a35794ae592c4b00891cb7}\label{classUNFOLD_1_1UNFOLD_a5a4fa0b2a2a35794ae592c4b00891cb7}} 
+TH1F $\ast$ {\bfseries h\+Answer\+Test}
+\item 
+\mbox{\Hypertarget{classUNFOLD_1_1UNFOLD_af94cb9facc36b0d5304dcb69ad45a0c9}\label{classUNFOLD_1_1UNFOLD_af94cb9facc36b0d5304dcb69ad45a0c9}} 
+TH1F $\ast$ {\bfseries h\+Sig}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+This class is used to aggregate various classes that are part of a neutron unfolding such as response matrix, light output spectrum, neutron guess spectrum and more 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/UNFOLD.\+h\end{DoxyCompactItemize}

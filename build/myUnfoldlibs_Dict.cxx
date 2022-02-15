@@ -104,7 +104,7 @@ namespace ROOT {
       ::UNFOLD::UNFOLD *ptr = 0;
       static ::TVirtualIsAProxy* isa_proxy = new ::TIsAProxy(typeid(::UNFOLD::UNFOLD));
       static ::ROOT::TGenericClassInfo 
-         instance("UNFOLD::UNFOLD", "UNFOLD.h", 18,
+         instance("UNFOLD::UNFOLD", "UNFOLD.h", 22,
                   typeid(::UNFOLD::UNFOLD), ::ROOT::Internal::DefineBehavior(ptr, ptr),
                   &UNFOLDcLcLUNFOLD_Dictionary, isa_proxy, 4,
                   sizeof(::UNFOLD::UNFOLD) );
