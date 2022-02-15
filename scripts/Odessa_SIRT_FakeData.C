@@ -1,4 +1,7 @@
 // test SIRT for light-output spectrum unfolding
+/*
+ *\brief a test program for UNFOLDING 
+ */
 void Odessa_SIRT_FakeData()
 {
   UNFOLD::FILEIO *fio;
@@ -15,13 +18,23 @@ void Odessa_SIRT_FakeData()
   // add these to FILEIO class
   cout << "setting response matrix\n";
   s.setResponseMatrix();
-/*  vector<double> en = {.5,1.2,3.2,5};
-  vector<double>  w = {3,10.5,10,20};*/
+ vector<double> en = {1.1,1.2,1.3,1.6,1.7,1.8,1.9,2.2,2.3,2.4,3.6,3.7,3.8};
+  vector<double>  w = {1800,2100,1000,8800,9000,8400,13000,1000,1200,1300,1850,1950,1850};
+  
+  //30 m_bar
+  /*vector<double> en = {1.5,3.2,6.2};
+  vector<double>  w = {11,16,10};
+  //700 iters
+  vector<double> en = {1.5,3.2,6.2};
+  vector<double>  w = {10,10,17};*/
+  //800 iters
+  //vector<double> en = {3.1,6.6};
+  //vector<double>  w = {20,10};
+  //2000 iters
+  /*vector<double> en = {4.1,5.2};
+  vector<double>  w = {8,22};*/
 
-/*  vector<double> en = {0.5,3.2,6.2};
-  vector<double>  w = {11,16,10};*/
-  vector<double> en = {1.1,1.2,1.6,1.7,1.8,2.2,2.3,2.4,3.6,3.7,3.8};
-  vector<double>  w = {1800,2100,8000,9000,10000,1000,1200,1300,1850,1950,1850};
+
   s.generateFakeData(en, w);
   //s.readInExpSpectrum(iFN,"hPIC");
   //s.setData();
@@ -32,8 +45,11 @@ void Odessa_SIRT_FakeData()
   //s.plotProjection("lightOutput");
 
 
+  double lowestRMSE=s.getRMSE();
+  double lowestIteration=0;
+  Eigen::VectorXf lowestForwardProjection=s.getFwdProjection();
   //prints the forward projection, light output spectrum, neutron guess, and ground truth neutron specrum does the mlem unfolding for i counts
-  for(int i=0; i<500; i++)
+  for(int i=0; i<2014; i++)
   {
 	  //this prints out the various arrays-> forward projection, light output spectrum, neutron guess, and ground truth neutron spectrum
   /*cout<<"|Fwd Proj|lOutSpect|NeutronGuess|Ground_Truth|"<<endl;
@@ -48,13 +64,21 @@ void Odessa_SIRT_FakeData()
 		  }
 		  else{cout<<endl;}
 	  }*/
-	  cout<<"Iteration:"<<i<<"|Stop Indice:"<<s.getStopIndice()<<"|RSS:"<<s.getRss()<<"|RMSE:"<<s.getRMSE()<<"|Forward Proj Sum:"<<s.getFwdProjection().sum()<<"|Light output Sum:"<<s.getInSpectrum().sum()<<endl;
+	  //cout<<std::setprecision(14)<<"Iteration:"<<i<<"|Stop Indice:"<<s.getStopIndice()<<"|RSS:"<<s.getRss()<<"|RMSE:"<<s.getRMSE()<<"|lowest RMSE:"<<lowestRMSE<<"|lowest iteration:"<<lowestIteration<<endl;
+
+	  if(s.getRMSE()<lowestRMSE)
+	  {
+		  lowestRMSE=s.getRMSE();
+		  lowestIteration=i;
+		  lowestForwardProjection=s.getFwdProjection();
+	  }
 	  //append s.getBestGuess() to the end of the matrix
 	  s.updateMLEM();
-	  cout<<endl<<endl;
+	  //cout<<endl<<endl;
 	  s.calcRMSE();
   }
-
+cout<<setprecision(12)<<"|Stop Indice:"<<s.getStopIndice()<<"|RSS:"<<s.getRss()<<"|RMSE:"<<s.getRMSE()<<"|lowest RMSE:"<<lowestRMSE<<"|lowest iteration:"<<lowestIteration<<"|mean input spectrum bin count:" <<s.getMeanInSpectrumBinCount()<<"|MeanDeviation:"<<s.getMD(lowestForwardProjection)<<"|InputSpectrum sum"<<s.getInSpectrum().sum()<<"|Forward Projection Size:"<<s.getFwdProjection().size()<<endl<<endl;
+s.plotTheoreticalMD("TheoreticalMD");
 s.plotRSS();
 s.plotRMSE();
 s.plotProjection("lightOutput");
